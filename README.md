@@ -50,10 +50,27 @@ One way to create a Deployment using a .yaml file like the one above is to use t
 $ kubectl create -f docs/user-guide/nginx-deployment.yaml --record
 ```
 
-### Required Fields
+####  Required Fields
 In the .yaml file for the Kubernetes object you want to create, you’ll need to set values for the following fields:
 * apiVersion - Which version of the Kubernetes API you’re using to create this object
 * kind - What kind of object you want to create
 * metadata - Data that helps uniquely identify the object, including a name string, UID, and optional namespace
 
 You’ll also need to provide the object spec field. The precise format of the object spec is different for every Kubernetes object, and contains nested fields specific to that object. The Kubernetes API reference can help you find the spec format for all of the objects you can create using Kubernetes
+
+### Pods
+#### What is a Pod?
+Pods are the smallest deployable units of computing that can be created and managed in Kubernetes.
+
+A pod (as in a pod of whales or pea pod) is a group of one or more containers (such as Docker containers), the shared storage for those containers, and options about how to run the containers.
+
+#### Working with Pods
+You’ll rarely create individual Pods directly in Kubernetes–even singleton Pods. This is because Pods are designed as relatively ephemeral, disposable entities.
+
+##### Pods and Controllers
+A Controller can create and manage multiple Pods for you, handling replication and rollout and providing self-healing capabilities at cluster scope. For example, if a Node fails, the Controller might automatically replace the Pod by scheduling an identical replacement on a different Node.
+
+Some examples of Controllers that contain one or more pods include:
+* Deployment
+* StatefulSet
+* DaemonSet
