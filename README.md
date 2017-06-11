@@ -74,3 +74,57 @@ Some examples of Controllers that contain one or more pods include:
 * Deployment
 * StatefulSet
 * DaemonSet
+
+### Deployments
+#### What is a Deployment?
+A Deployment provides declarative updates for Pods and ReplicaSets (the next-generation ReplicationController). You only need to describe the desired state in a Deployment object, and the Deployment controller will change the actual state to the desired state at a controlled rate for you.
+
+#### Creating a Deployment
+Here is an example Deployment.It creates 3 nginx Pods.
+
+```yaml
+ apiVersion: apps/v1beta1
+ kind: Deployment
+ metadata:
+   name: nginx-deployment
+ spec:
+   replicas: 3
+   template:
+     metadata:
+       labels:
+         app: nginx
+     spec:
+       containers:
+       - name: nginx
+         image: nginx:1.7.9
+         ports:
+         - containerPort: 80
+```
+Run the example by downloading the example file and then running this command
+```shell
+kubectl create -f docs/user-guide/nginx-deployment.yaml --record
+```
+
+Run the command bellow to show deployments:
+```shell
+kubectl get deployment
+```
+
+### Services
+#### What is a Services?
+A Kubernetes Service is an abstraction which defines a logical set of Pods and a policy by which to access them - sometimes called a micro-service. The set of Pods targeted by a Service is (usually) determined by a Label Selector (see below for why you might want a Service without a selector).
+
+#### Defining a service
+```yaml
+kind: Service
+apiVersion: v1
+metadata:
+  name: my-service
+spec:
+  selector:
+    app: MyApp
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 9376
+```
