@@ -9,6 +9,9 @@ Kubernetes is an open-source system for automating deployment, scaling, and mana
 Kubernetes cluster consists of at least one master and multiple compute nodes. The master is responsible for exposing the application program interface (API), scheduling the deployments and managing  the overall cluster. Each node runs a container runtime, such as Docker or rkt, along with an agent that communicates with the master. 
 
 ### Node
+A node is a worker machine in Kubernetes, previously known as a minion. A node may be a VM or physical machine, depending on the cluster. Each node has the services necessary to run pods and is managed by the master components. The services on a node include Docker, kubelet and kube-proxy. See The Kubernetes Node section in the architecture design doc for more details.
+
+
 Each node runs a container runtime, such as Docker or rkt, along with an agent that communicates with the master. The node also runs additional components for logging, monitoring, service discovery and optional add-ons. Nodes are the workhorses of a Kubernetes cluster. They expose compute, networking and storage resources to applications. Nodes can be virtual machines (VMs) running in a cloud or bare metal servers running within the data center.
 ![Kubernetes Architecture](images/0.png)
 
@@ -80,7 +83,7 @@ Some examples of Controllers that contain one or more pods include:
 A Deployment provides declarative updates for Pods and ReplicaSets (the next-generation ReplicationController). You only need to describe the desired state in a Deployment object, and the Deployment controller will change the actual state to the desired state at a controlled rate for you.
 
 #### Creating a Deployment
-Here is an example Deployment.It creates 3 nginx Pods.
+Here is an example Deployment. It creates 3 nginx Pods.
 
 ```yaml
  apiVersion: apps/v1beta1
@@ -127,4 +130,34 @@ spec:
     - protocol: TCP
       port: 80
       targetPort: 9376
+```
+
+### Ingress
+#### What is Ingress?
+An API object that manages external access to the services in a cluster, typically HTTP.
+
+Note:
+Before you start using the Ingress resource, there are a few things you should understand. The Ingress is a beta resource, not available in any Kubernetes release prior to 1.1. You need an Ingress controller to satisfy an Ingress, simply creating the resource will have no effect.
+
+#### Define a ingress
+```
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: test
+  annotations:
+    ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - host: foo.bar.com
+    http:
+      paths:
+      - path: /foo
+        backend:
+          serviceName: s1
+          servicePort: 80
+      - path: /bar
+        backend:
+          serviceName: s2
+          servicePort: 80
 ```
