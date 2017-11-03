@@ -1,19 +1,21 @@
 ## Docker是什么
-Docker是一个开源的引擎，可以轻松的为任何应用创建一个轻量级的、可移植的、自给自足的容器。开发者在笔记本上编译测试通过的容器可以批量地在生产环境中部署，包括VMs（虚拟机）、bare metal、OpenStack 集群和其他的基础应用平台。 
+Docker是轻量级的、可移植的、自给自足的容器。
 
-## 应用场景
-Docker通常用于如下场景：
+## Docker能做什么
+可以将应用程序及其依赖打包,用于开发,传输及部署.
 
-1. web应用的自动化打包和发布；
-2. 自动化测试和持续集成、发布；
-3. 在服务型环境中部署和调整数据库或其他的后台应用；
-4. 从头编译或者扩展现有的OpenShift或Cloud Foundry平台来搭建自己的PaaS环境。
+ ![Docker](https://www.docker.com/sites/default/files/Package%20software%40x2.png)
 
 ## Docker容器与虚拟机区别
+* Container
+ Containers are an abstraction at the app layer that packages code and dependencies together. Multiple containers can run on the same machine and share the OS kernel with other containers, each running as isolated processes in user space. Containers take up less space than VMs (container images are typically tens of MBs in size), and start almost instantly.
 
- ![Image of Yaktocat](https://pic3.zhimg.com/50/20006deca0fccda0d536edd626835e9e_720x4096.jpg)
+ ![Docker](https://www.docker.com/sites/default/files/Container%402x.png)
+
+ * Virtual machines (VMs) are an abstraction of physical hardware turning one server into many servers. The hypervisor allows multiple VMs to run on a single machine. Each VM includes a full copy of an operating system, one or more apps, necessary binaries and libraries - taking up tens of GBs. VMs can also be slow to boot.
+
  
-![Image of Yaktocat](https://www.docker.com/sites/default/files/VM%402x.png)
+![Vm](https://www.docker.com/sites/default/files/VM%402x.png)
 
 ## 镜像与容器
 镜像是一个轻量级，独立的可执行包，其中包含运行一段软件所需的一切，包括代码，运行时，库，环境变量和配置文件。
@@ -34,4 +36,15 @@ ENTRYPOINT ["java", "-jar","/app.jar"]
 Build Image command:
 ```
 docker build -t [TAG_NAME] .
+```
+
+Run Image:
+```
+docker run [TAG_NAME]
+```
+
+Publish Image:
+```
+docker tag [TAG_NAME] [YOUR_HUB_NAME]/[YOUR_TAG_NAME]
+dokcer push [YOUR_HUB_NAME]/[YOUR_TAG_NAME]
 ```
